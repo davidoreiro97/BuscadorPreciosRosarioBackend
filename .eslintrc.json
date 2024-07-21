@@ -1,0 +1,13 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
+		"airbnb-base"
+	],
+	"plugins": ["@typescript-eslint"],
+	"env": {
+		"node": true,
+		"es6": true
+	}
+}
