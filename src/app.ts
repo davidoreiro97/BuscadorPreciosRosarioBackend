@@ -15,27 +15,26 @@ const app = express();
 morgan.token("date", () => new Date().toLocaleDateString());
 morgan.token("hour", () => new Date().toLocaleTimeString());
 // Configuración de CORS
-const corsOptions = {
-	origin: "http://example.com", // Cambia esto al dominio que deseas permitir
-	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-	allowedHeaders: "Content-Type,Authorization",
-};
-
+// const corsOptions = {
+// 	origin: "url", // Cambiar el dominio
+// 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+// 	allowedHeaders: "Content-Type,Authorization",
+// };
 // Middlewares
 //// Para parsear json
 app.use(express.json());
+//// Morgan
+app.use(
+	morgan(
+		"╔════════════════════ PETICION ════════════════════\n╠═══> FECHA Y HORA : :date :hour \n╠═══> METODO : :method\n╠═══> RECURSO : :url\n╠═══> ESTADO DE RTA : :status\n╠═══> TIPO-PESO RTA : :res[content-type] :res[content-length] Bytes\n╠═══> DEMORA RTA : :response-time ms\n╚══════════════════════════════════════════════════════════════╝"
+	)
+);
+//// Cors
+app.use(cors());
+//// Helmet
+app.use(helmet());
+export default app;
 //// Para guardar las peticiones en un archivo log, deshabilitar en el futuro.
 app.use(loggerMiddleware);
 //// Para manejar rutas
 app.use("/", routes);
-//// Morgan
-app.use(
-	morgan(
-		":method :url :status :res[content-length] - :response-time ms :date :hour"
-	)
-);
-//// Cors
-app.use(cors(corsOptions));
-//// Helmet
-app.use(helmet());
-export default app;
