@@ -1,7 +1,7 @@
 import cheerio from "cheerio";
-export const cheerioLaReinaScrapper = async (productoNombre: string) => {
+export const cheerioLaGallegaScrapper = async (productoNombre: string) => {
 	//Ver si antes de hacer el fetch no hay que abrir un navegador con pupetter.
-	const urlFetch = `https://www.lareinaonline.com.ar/productosnl.asp?TM=Bus&cpoB=${productoNombre}`;
+	const urlFetch = `https://www.lagallega.com.ar/Productos.asp?cpoBuscar=${productoNombre}`;
 	const productos: {
 		titulo: string;
 		precio: number;
@@ -10,7 +10,22 @@ export const cheerioLaReinaScrapper = async (productoNombre: string) => {
 	try {
 		const optionsFetch = {
 			headers: {
-				Cookie: "cantP=500",
+				"User-Agent":
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+				Accept:
+					"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+				"Accept-Language": "en-US,en;q=0.9",
+				"Accept-Encoding": "gzip, deflate, br",
+				Connection: "keep-alive",
+				Cookie: "ASPSESSIONIDCUBADTRR=CFEPOKEDADENCDHCOADNCKFH; cantP=100",
+				Dnt: "1",
+				Host: "www.lagallega.com.ar",
+				"Sec-Fetch-Dest": "document",
+				"Sec-Fetch-Mode": "navigate",
+				"Sec-Fetch-Site": "none",
+				"Sec-Fetch-User": "?1",
+				"Upgrade-Insecure-Requests": "1",
+				Referer: "https://www.lagallega.com.ar/",
 			},
 		};
 		let response = await fetch(urlFetch, optionsFetch);
@@ -33,9 +48,7 @@ export const cheerioLaReinaScrapper = async (productoNombre: string) => {
 					.slice(1, -3)
 					.replace(".", "")
 			);
-			const linkAProducto =
-				"https://www.lareinaonline.com.ar/" +
-				$(element).find(".FotoProd a").attr("href");
+			const linkAProducto = "https://www.lagallega.com.ar/Login.asp";
 			productos.push({ titulo, precio, linkAProducto });
 		});
 		//Si devolvemos productos vacio no hubo resultados.

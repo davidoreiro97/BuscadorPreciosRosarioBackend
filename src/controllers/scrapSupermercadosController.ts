@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { errors } from "../types";
 import { cheerioLaReinaScrapper } from "../services/webScrappers/cheerio/laReina/laReina";
+import { cheerioLaGallegaScrapper } from "../services/webScrappers/cheerio/laGallega/laGallega";
 export const scrapSupermercadosController = async (
 	req: Request,
 	res: Response
@@ -42,11 +43,14 @@ export const scrapSupermercadosController = async (
 			});
 			break;
 		case "LA GALLEGA":
-			return res.status(200).json({
-				nombreSupermercado: "LA GALLEGA",
-				productoBuscado: productoBuscado,
-			});
-			break;
+			try {
+				productos = await cheerioLaGallegaScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
 		case "LA REINA":
 			try {
 				productos = await cheerioLaReinaScrapper(productoBuscado);
@@ -56,7 +60,6 @@ export const scrapSupermercadosController = async (
 					errorType: errors.type.fetch_error,
 				});
 			}
-
 			break;
 		case "JUMBO":
 			return res.status(200).json({
