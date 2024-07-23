@@ -18,6 +18,7 @@ export const getCoordinatesController = async (req: Request, res: Response) => {
 	try {
 		const response = await fetch(urlGeocodeAPI);
 		if (!response.ok) {
+			//Lanzo el error.
 			throw new Error("Error en la solicitud a la API de geocodificación");
 		}
 
@@ -36,7 +37,7 @@ export const getCoordinatesController = async (req: Request, res: Response) => {
 		res.status(200);
 		res.json({ latitud, longitud, direccion });
 	} catch (e: any) {
-		//Responder con un error de que no se pudo conectar con geocode.
+		//Atrapo el error y si este contiene el texto devuelvo un 502.
 		console.error("Error haciendo la solicitud a GeoCode", e);
 		if (e.message.includes("solicitud a la API de geocodificación")) {
 			return res.status(502).json({
