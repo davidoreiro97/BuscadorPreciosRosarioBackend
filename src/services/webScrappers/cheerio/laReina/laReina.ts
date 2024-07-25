@@ -5,12 +5,13 @@ export const cheerioLaReinaScrapper = async (productoNombre: string) => {
 	const productos: {
 		titulo: string;
 		precio: number;
+		urlImagen: string;
 		linkAProducto: string;
 	}[] = [];
 	try {
 		const optionsFetch = {
 			headers: {
-				Cookie: "cantP=500",
+				Cookie: "cantP=100",
 			},
 		};
 		let response = await fetch(urlFetch, optionsFetch);
@@ -36,7 +37,10 @@ export const cheerioLaReinaScrapper = async (productoNombre: string) => {
 			const linkAProducto =
 				"https://www.lareinaonline.com.ar/" +
 				$(element).find(".FotoProd a").attr("href");
-			productos.push({ titulo, precio, linkAProducto });
+			const urlImagen =
+				"https://www.lareinaonline.com.ar/" +
+				$(element).find(".FotoProd a img").attr("src");
+			productos.push({ titulo, precio, urlImagen, linkAProducto });
 		});
 		//Si devolvemos productos vacio no hubo resultados.
 		if (productos.length > 0) {

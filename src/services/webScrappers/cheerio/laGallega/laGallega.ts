@@ -1,10 +1,16 @@
 import cheerio from "cheerio";
+import { getCacheVar } from "../../../cache/variablesEnCache";
 export const cheerioLaGallegaScrapper = async (productoNombre: string) => {
-	//Ver si antes de hacer el fetch no hay que abrir un navegador con pupetter.
+	const session_name_asp = await getCacheVar("LA_GALLEGA_ASP_SESSION_NAME");
+	const session_value_asp = await getCacheVar("LA_GALLEGA_ASP_SESSION_VALUE");
+	console.log(
+		`COOKIE DE ASP SESION PARA LA CONSULTA : ${session_name_asp}=${session_value_asp}`
+	);
 	const urlFetch = `https://www.lagallega.com.ar/Productos.asp?cpoBuscar=${productoNombre}`;
 	const productos: {
 		titulo: string;
 		precio: number;
+		urlImagen: string;
 		linkAProducto: string;
 	}[] = [];
 	try {
@@ -17,7 +23,7 @@ export const cheerioLaGallegaScrapper = async (productoNombre: string) => {
 				"Accept-Language": "en-US,en;q=0.9",
 				"Accept-Encoding": "gzip, deflate, br",
 				Connection: "keep-alive",
-				Cookie: "ASPSESSIONIDCUBADTRR=CFEPOKEDADENCDHCOADNCKFH; cantP=100",
+				Cookie: `${session_name_asp}=${session_value_asp};cantP=100`,
 				Dnt: "1",
 				Host: "www.lagallega.com.ar",
 				"Sec-Fetch-Dest": "document",
@@ -49,7 +55,10 @@ export const cheerioLaGallegaScrapper = async (productoNombre: string) => {
 					.replace(".", "")
 			);
 			const linkAProducto = "https://www.lagallega.com.ar/Login.asp";
-			productos.push({ titulo, precio, linkAProducto });
+			const urlImagen =
+				"https://www.lagallega.com.ar/" +
+				$(element).find(".FotoProd img").attr("src");
+			productos.push({ titulo, precio, urlImagen, linkAProducto });
 		});
 		//Si devolvemos productos vacio no hubo resultados.
 		if (productos.length > 0) {
