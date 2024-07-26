@@ -75,10 +75,17 @@ export const scrapSupermercadosController = async (
 			});
 			break;
 		case "ARCOIRIS":
-			return res.status(200).json({
-				nombreSupermercado: "ARCOIRIS",
-				productoBuscado: productoBuscado,
-			});
+			console.log(
+				"════════════════════> Haciendo web scrapping de Arcoiris..."
+			);
+			try {
+				productos = await cheerioLaReinaScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
 			break;
 		case "CARREFOUR":
 			return res.status(200).json({
