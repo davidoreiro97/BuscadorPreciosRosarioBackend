@@ -1,12 +1,12 @@
 import cheerio from "cheerio";
 import { getCacheVar } from "../../../cache/variablesEnCache";
-export const cheerioLaGallegaScrapper = async (productoNombre: string) => {
-	const session_name_asp = await getCacheVar("LA_GALLEGA_ASP_SESSION_NAME");
-	const session_value_asp = await getCacheVar("LA_GALLEGA_ASP_SESSION_VALUE");
+export const cheerioDarScrapper = async (productoNombre: string) => {
+	const session_name_asp = await getCacheVar("DAR_ASP_SESSION_NAME");
+	const session_value_asp = await getCacheVar("DAR_ASP_SESSION_VALUE");
 	console.log(
-		`COOKIE DE ASP SESION PARA LA CONSULTA AL SUPERMERCADO LA GALLEGA: ${session_name_asp}=${session_value_asp}`
+		`COOKIE DE ASP SESION PARA LA CONSULTA AL SUPERMERCADO DAR: ${session_name_asp}=${session_value_asp}`
 	);
-	const urlFetch = `https://www.lagallega.com.ar/Productos.asp?cpoBuscar=${productoNombre}`;
+	const urlFetch = `https://www.darentucasa.com.ar/Productos.asp?cpoBuscar=${productoNombre}`;
 	const productos: {
 		titulo: string;
 		precio: number;
@@ -42,21 +42,16 @@ export const cheerioLaGallegaScrapper = async (productoNombre: string) => {
 		const $ = cheerio.load(resHTML);
 		$(".cuadProd").each((index, element) => {
 			const titulo = $(element)
-				.find(".desc")
+				.find(".desc.ColorSec1")
 				.text()
 				.replace(/\s+/g, " ")
 				.trim();
 			const precio = parseInt(
-				$(element)
-					.find(".precio .izq")
-					.text()
-					.trim()
-					.slice(1, -3)
-					.replace(".", "")
+				$(element).find(".izq").text().trim().slice(1, -3).replace(".", "")
 			);
-			const linkAProducto = "https://www.lagallega.com.ar/Login.asp";
+			const linkAProducto = "https://www.darentucasa.com.ar/carrito.asp";
 			const urlImagen =
-				"https://www.lagallega.com.ar/" +
+				"https://www.darentucasa.com.ar/" +
 				$(element).find(".FotoProd img").attr("src");
 			productos.push({ titulo, precio, urlImagen, linkAProducto });
 		});

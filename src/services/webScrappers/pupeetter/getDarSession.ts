@@ -1,10 +1,9 @@
 import { getBrowser } from "./browserInstance";
 import { setCacheVar, getCacheVar } from "../../cache/variablesEnCache";
-export const getLaGallegaSession = async () => {
+export const getDarSession = async () => {
 	//La idea es mantener siempre la pestaña abierta para mantener el sessionID de asp y refrescarla cada 15m.
-	const urlFetch = "https://www.lagallega.com.ar/";
+	const urlFetch = "https://www.darentucasa.com.ar/";
 	const browser = await getBrowser();
-	//Optimizar esta página sacandola las imagenes, hojas de estilo, etc.
 	const page = await browser.newPage();
 	page.setDefaultNavigationTimeout(60000);
 	await page.setRequestInterception(true);
@@ -35,20 +34,19 @@ export const getLaGallegaSession = async () => {
 		cookie.name.startsWith("ASPSESSIONID")
 	);
 	if (!sessionCookie) {
-		throw new Error(
-			"No se pudo encontrar una cookie de session para La Gallega."
-		);
+		throw new Error("No se pudo encontrar una cookie de session para DAR.");
 	}
 	await setCacheVar(
-		"LA_GALLEGA_ASP_SESSION_NAME",
+		"DAR_ASP_SESSION_NAME",
 		(sessionCookie?.name as string) ||
-			((await getCacheVar("LA_GALLEGA_ASP_SESSION_NAME")) as string)
+			((await getCacheVar("DAR_ASP_SESSION_NAME")) as string)
 	);
 	await setCacheVar(
-		"LA_GALLEGA_ASP_SESSION_VALUE",
+		"DAR_ASP_SESSION_VALUE",
 		(sessionCookie?.value as string) ||
-			((await getCacheVar("LA_GALLEGA_ASP_SESSION_VALUE")) as string)
+			((await getCacheVar("DAR_ASP_SESSION_VALUE")) as string)
 	);
+
 	setInterval(async () => {
 		await page.reload({ waitUntil: "networkidle2" });
 		cookies = await page.cookies();
@@ -56,14 +54,14 @@ export const getLaGallegaSession = async () => {
 			cookie.name.startsWith("ASPSESSIONID")
 		);
 		await setCacheVar(
-			"LA_GALLEGA_ASP_SESSION_NAME",
+			"DAR_ASP_SESSION_NAME",
 			(sessionCookie?.name as string) ||
-				((await getCacheVar("LA_GALLEGA_ASP_SESSION_NAME")) as string)
+				((await getCacheVar("DAR_ASP_SESSION_NAME")) as string)
 		);
 		await setCacheVar(
-			"LA_GALLEGA_ASP_SESSION_VALUE",
+			"DAR_ASP_SESSION_VALUE",
 			(sessionCookie?.value as string) ||
-				((await getCacheVar("LA_GALLEGA_ASP_SESSION_VALUE")) as string)
+				((await getCacheVar("DAR_ASP_SESSION_VALUE")) as string)
 		);
 	}, 900000); // 900000ms = 15 minutos en milisegundos
 };

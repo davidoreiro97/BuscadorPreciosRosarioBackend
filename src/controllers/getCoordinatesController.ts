@@ -3,6 +3,9 @@ import { errors } from "../types";
 export const getCoordinatesController = async (req: Request, res: Response) => {
 	//Se recibe el nombre de una calle junto con su altura, se hace un fetch a
 	//una api de geocodificación y de esta respuesta devolvemos las coordenadas y el nombre de la dirección
+	console.log(
+		"════════════════════> Consultando el servicio de geolocalización para resolver una dirección..."
+	);
 	const direccionIngresada: string = req.body.direccionIngresada;
 	if (!(typeof direccionIngresada === "string")) {
 		return res.status(400).json({
