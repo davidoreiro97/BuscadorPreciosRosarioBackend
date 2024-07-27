@@ -16,7 +16,7 @@ export async function jumboScrapper(nombreProducto: string) {
 			request.resourceType() === "font" ||
 			request.resourceType() === "media" ||
 			//request.resourceType() === "script" ||
-			request.resourceType() === "fetch" ||
+			//request.resourceType() === "fetch" ||
 			request.resourceType() === "xhr" ||
 			request.resourceType() === "texttrack" ||
 			request.resourceType() === "eventsource" ||

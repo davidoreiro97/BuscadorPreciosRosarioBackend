@@ -48,90 +48,90 @@ export const scrapSupermercadosController = async (
 				});
 			}
 			break;
-		// case "COTO":
-		// 	console.log("════════════════════> Haciendo web scrapping de Coto...");
-		// 	try {
-		// 		productos = await cotoScrapper(productoBuscado);
-		// 		return res.status(200).json({ productos });
-		// 	} catch (error) {
-		// 		return res.status(500).json({
-		// 			errorType: errors.type.fetch_error,
-		// 		});
-		// 	}
-		// 	break;
-		// case "LA GALLEGA":
-		// 	console.log(
-		// 		"════════════════════> Haciendo web scrapping de La Gallega..."
-		// 	);
-		// 	try {
-		// 		productos = await cheerioLaGallegaScrapper(productoBuscado);
-		// 		return res.status(200).json({ productos });
-		// 	} catch (error) {
-		// 		return res.status(500).json({
-		// 			errorType: errors.type.fetch_error,
-		// 		});
-		// 	}
-		// case "LA REINA":
-		// 	console.log(
-		// 		"════════════════════> Haciendo web scrapping de La Reina..."
-		// 	);
-		// 	try {
-		// 		productos = await cheerioLaReinaScrapper(productoBuscado);
-		// 		return res.status(200).json({ productos });
-		// 	} catch (error) {
-		// 		return res.status(500).json({
-		// 			errorType: errors.type.fetch_error,
-		// 		});
-		// 	}
-		// 	break;
-		// case "JUMBO":
-		// 	console.log("════════════════════> Haciendo web scrapping de Jumbo...");
-		// 	try {
-		// 		productos = await jumboScrapper(productoBuscado);
-		// 		return res.status(200).json({ productos });
-		// 	} catch (error) {
-		// 		return res.status(500).json({
-		// 			errorType: errors.type.fetch_error,
-		// 		});
-		// 	}
-		// 	break;
-		// case "ARCOIRIS":
-		// 	console.log(
-		// 		"════════════════════> Haciendo web scrapping de Arcoiris..."
-		// 	);
-		// 	try {
-		// 		productos = await cheerioArcoirisScrapper(productoBuscado);
-		// 		return res.status(200).json({ productos });
-		// 	} catch (error) {
-		// 		return res.status(500).json({
-		// 			errorType: errors.type.fetch_error,
-		// 		});
-		// 	}
-		// 	break;
-		// case "CARREFOUR":
-		// 	console.log(
-		// 		"════════════════════> Haciendo web scrapping de Carrefour..."
-		// 	);
-		// 	try {
-		// 		productos = await carrefourScrapper(productoBuscado);
-		// 		return res.status(200).json({ productos });
-		// 	} catch (error) {
-		// 		return res.status(500).json({
-		// 			errorType: errors.type.fetch_error,
-		// 		});
-		// 	}
-		// 	break;
-		// case "DAR":
-		// 	console.log("════════════════════> Haciendo web scrapping del DAR...");
-		// 	try {
-		// 		productos = await cheerioDarScrapper(productoBuscado);
-		// 		return res.status(200).json({ productos });
-		// 	} catch (error) {
-		// 		return res.status(500).json({
-		// 			errorType: errors.type.fetch_error,
-		// 		});
-		// 	}
-		// 	break;
+		case "COTO":
+			console.log("════════════════════> Haciendo web scrapping de Coto...");
+			try {
+				productos = await cotoScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
+			break;
+		case "LA GALLEGA":
+			console.log(
+				"════════════════════> Haciendo web scrapping de La Gallega..."
+			);
+			try {
+				productos = await cheerioLaGallegaScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
+		case "LA REINA":
+			console.log(
+				"════════════════════> Haciendo web scrapping de La Reina..."
+			);
+			try {
+				productos = await cheerioLaReinaScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
+			break;
+		case "JUMBO":
+			console.log("════════════════════> Haciendo web scrapping de Jumbo...");
+			try {
+				productos = await jumboScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
+			break;
+		case "ARCOIRIS":
+			console.log(
+				"════════════════════> Haciendo web scrapping de Arcoiris..."
+			);
+			try {
+				productos = await cheerioArcoirisScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
+			break;
+		case "CARREFOUR":
+			console.log(
+				"════════════════════> Haciendo web scrapping de Carrefour..."
+			);
+			try {
+				productos = await carrefourScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
+			break;
+		case "DAR":
+			console.log("════════════════════> Haciendo web scrapping del DAR...");
+			try {
+				productos = await cheerioDarScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
+			break;
 		default:
 			return res.status(400).json({
 				errorType: errors.type.invalid_data,

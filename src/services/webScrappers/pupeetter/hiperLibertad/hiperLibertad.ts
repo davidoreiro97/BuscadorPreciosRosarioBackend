@@ -129,7 +129,6 @@ export async function hiperLibertadScrapper(nombreProducto: string) {
 			resultadoBusqueda = [];
 		}
 	} finally {
-		console.log(resultadoBusqueda);
 		await pagina.close();
 		return resultadoBusqueda;
 	}
