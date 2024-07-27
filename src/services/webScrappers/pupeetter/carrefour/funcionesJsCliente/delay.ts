@@ -1,5 +1,5 @@
-export const timeout = async (tiempo) => {
-	return new Promise((resolve) => {
+export const timeout = async (tiempo: number) => {
+	return new Promise((resolve: any) => {
 		setTimeout(() => resolve(), tiempo);
 	});
 };

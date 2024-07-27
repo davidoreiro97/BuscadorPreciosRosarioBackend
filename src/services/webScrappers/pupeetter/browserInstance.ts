@@ -5,7 +5,7 @@ let browser: Browser | null = null;
 export const getBrowser = async () => {
 	if (!browser) {
 		browser = await puppeteer.launch({
-			headless: true,
+			headless: false,
 			args: [
 				"--no-sandbox",
 				"--disable-setuid-sandbox",
@@ -42,7 +42,7 @@ export const getBrowser = async () => {
 				"--password-store=basic",
 				"--use-mock-keychain",
 			],
-			slowMo: 100, // Este valor se puede ajustar o eliminar para mejorar la velocidad
+			slowMo: 150,
 		});
 	}
 	return browser;

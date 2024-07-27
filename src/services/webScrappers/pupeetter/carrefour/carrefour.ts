@@ -113,10 +113,6 @@ export async function carrefourScrapper(nombreProducto: string) {
 			resultadoBusqueda = [];
 		}
 	} finally {
-		console.log(
-			`╔═════════════════ BUSQUEDA DEL PRODUCTO ${nombreProducto} ════════════════════════════════`
-		);
-		console.log(resultadoBusqueda);
 		await pagina.close();
 		return resultadoBusqueda;
 	}

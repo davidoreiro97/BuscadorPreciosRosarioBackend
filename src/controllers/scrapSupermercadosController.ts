@@ -5,6 +5,7 @@ import { cheerioLaGallegaScrapper } from "../services/webScrappers/cheerio/laGal
 import { cheerioDarScrapper } from "../services/webScrappers/cheerio/dar/dar";
 import { carrefourScrapper } from "../services/webScrappers/pupeetter/carrefour/carrefour";
 import { cheerioArcoirisScrapper } from "../services/webScrappers/cheerio/arcoiris/arcoiris";
+import { cotoScrapper } from "../services/webScrappers/pupeetter/coto/coto";
 export const scrapSupermercadosController = async (
 	req: Request,
 	res: Response
@@ -40,10 +41,15 @@ export const scrapSupermercadosController = async (
 			});
 			break;
 		case "COTO":
-			return res.status(200).json({
-				nombreSupermercado: "COTO",
-				productoBuscado: productoBuscado,
-			});
+			console.log("════════════════════> Haciendo web scrapping de Coto...");
+			try {
+				productos = await cotoScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
 			break;
 		case "LA GALLEGA":
 			console.log(
