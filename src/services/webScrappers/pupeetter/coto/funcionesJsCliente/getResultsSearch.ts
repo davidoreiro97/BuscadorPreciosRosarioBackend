@@ -30,7 +30,7 @@ export const getResultsSearch = () => {
 			e.querySelector(".product_info_container").querySelector("a")?.href || "";
 		let urlImagen =
 			e.querySelector(".atg_store_productImage").querySelector("img")?.src ||
-			"";
+			"https://www.lareinaonline.com.ar/Fotos/Articulos/NoImagen.jpg";
 
 		todosLosProductos.push({
 			titulo,

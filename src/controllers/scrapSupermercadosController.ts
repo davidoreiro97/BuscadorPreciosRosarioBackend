@@ -6,14 +6,14 @@ import { cheerioDarScrapper } from "../services/webScrappers/cheerio/dar/dar";
 import { carrefourScrapper } from "../services/webScrappers/pupeetter/carrefour/carrefour";
 import { cheerioArcoirisScrapper } from "../services/webScrappers/cheerio/arcoiris/arcoiris";
 import { cotoScrapper } from "../services/webScrappers/pupeetter/coto/coto";
+import { jumboScrapper } from "../services/webScrappers/pupeetter/jumbo/jumbo";
 export const scrapSupermercadosController = async (
 	req: Request,
 	res: Response
 ) => {
-	// Se recibe el nombre del supermercado junto con el producto a buscar, se devuelve el titulo, el precio y el link al producto en el supermercado
+	// Se recibe el nombre del supermercado junto con el producto a buscar, se devuelve el titulo, el precio, el link al producto en el supermercado y el link a la imagen en el cdn.
 	const supermercadoBuscado: string = req.body.nombreSupermercado;
 	const productoBuscado: string = req.body.productoBuscado;
-	// console.log(supermercadoBuscado, productoBuscado);
 	let productos: {
 		titulo: string;
 		precio: number;
@@ -77,10 +77,15 @@ export const scrapSupermercadosController = async (
 			}
 			break;
 		case "JUMBO":
-			return res.status(200).json({
-				nombreSupermercado: "JUMBO",
-				productoBuscado: productoBuscado,
-			});
+			console.log("════════════════════> Haciendo web scrapping de Jumbo...");
+			try {
+				productos = await jumboScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
 			break;
 		case "ARCOIRIS":
 			console.log(
@@ -120,6 +125,10 @@ export const scrapSupermercadosController = async (
 			}
 			break;
 		default:
+			return res.status(400).json({
+				errorType: errors.type.invalid_data,
+				message: errors.message.invalid_data,
+			});
 			break;
 	}
 };
