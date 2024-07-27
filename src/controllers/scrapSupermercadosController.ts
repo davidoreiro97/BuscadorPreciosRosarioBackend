@@ -3,6 +3,8 @@ import { errors } from "../types";
 import { cheerioLaReinaScrapper } from "../services/webScrappers/cheerio/laReina/laReina";
 import { cheerioLaGallegaScrapper } from "../services/webScrappers/cheerio/laGallega/laGallega";
 import { cheerioDarScrapper } from "../services/webScrappers/cheerio/dar/dar";
+import { carrefourScrapper } from "../services/webScrappers/pupeetter/carrefour/carrefour";
+import { cheerioArcoirisScrapper } from "../services/webScrappers/cheerio/arcoiris/arcoiris";
 export const scrapSupermercadosController = async (
 	req: Request,
 	res: Response
@@ -79,7 +81,7 @@ export const scrapSupermercadosController = async (
 				"════════════════════> Haciendo web scrapping de Arcoiris..."
 			);
 			try {
-				productos = await cheerioLaReinaScrapper(productoBuscado);
+				productos = await cheerioArcoirisScrapper(productoBuscado);
 				return res.status(200).json({ productos });
 			} catch (error) {
 				return res.status(500).json({
@@ -88,10 +90,17 @@ export const scrapSupermercadosController = async (
 			}
 			break;
 		case "CARREFOUR":
-			return res.status(200).json({
-				nombreSupermercado: "CARREFOUR",
-				productoBuscado: productoBuscado,
-			});
+			console.log(
+				"════════════════════> Haciendo web scrapping de Carrefour..."
+			);
+			try {
+				productos = await carrefourScrapper(productoBuscado);
+				return res.status(200).json({ productos });
+			} catch (error) {
+				return res.status(500).json({
+					errorType: errors.type.fetch_error,
+				});
+			}
 			break;
 		case "DAR":
 			console.log("════════════════════> Haciendo web scrapping del DAR...");
