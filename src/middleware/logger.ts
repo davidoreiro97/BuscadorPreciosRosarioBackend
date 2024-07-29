@@ -8,7 +8,7 @@ const logFilePath = path.join(__dirname, "../../logs/request/", "requests.log");
 
 // Middleware para registrar solicitudes en un archivo
 const loggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
-	// Formato del mensaje de log
+	// Formato del mensaje de log, mejorar en algún momento con muchos más detalles.
 	const fecha = new Date().toLocaleDateString();
 	const hora = new Date().toLocaleTimeString();
 	const logMessage = `${req.method} ${req.url} - ${fecha} ${hora}\n`;
