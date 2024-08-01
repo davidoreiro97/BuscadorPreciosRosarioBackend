@@ -1,8 +1,21 @@
 import { Request, Response } from "express";
 import { errors } from "../types";
+let horarioUltimaPeticion = 0;
 export const getCoordinatesController = async (req: Request, res: Response) => {
 	//Se recibe el nombre de una calle junto con su altura, se hace un fetch a
 	//una api de geocodificación y de esta respuesta devolvemos las coordenadas y el nombre de la dirección
+	//Evitar que el usuario haga más de una petición a este endpoint cada 10s.
+	const esperaEntreSolicitudes = 6000;
+	const horaActual = Date.now();
+	const diferenciaDeTiempo = horaActual - horarioUltimaPeticion;
+	if (diferenciaDeTiempo < esperaEntreSolicitudes) {
+		return res.status(429).json({
+			errorType: errors.type.rate_limit,
+			message: errors.message.rate_limit,
+		});
+	}
+	horarioUltimaPeticion = horaActual;
+	//
 	console.log(
 		"════════════════════> Consultando el servicio de geolocalización para resolver una dirección..."
 	);

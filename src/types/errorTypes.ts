@@ -5,6 +5,7 @@ export const errors = {
 		api_error: "API_ERROR",
 		fetch_error: "FETCH_ERROR",
 		unknown_error: "UNKNOWN_ERROR",
+		rate_limit: "RATE_LIMIT",
 	},
 	message: {
 		invalid_data: "Los datos enviados no son los esperados.",
@@ -12,5 +13,6 @@ export const errors = {
 		api_error: "No se pudo conectar con el servicio de geocodificación.",
 		fetch_error: "No se pudo realizar el web scrapping del supermercado.",
 		unknown_error: "Ocurrió un error desconocido.",
+		rate_limit: "Demasiadas solicitudes en un corto tiempo, espera 10seg.",
 	},
 };
