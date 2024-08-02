@@ -23,7 +23,7 @@ export const cheerioLaGallegaScrapper = async (productoNombre: string) => {
 				"Accept-Language": "en-US,en;q=0.9",
 				"Accept-Encoding": "gzip, deflate, br",
 				Connection: "keep-alive",
-				Cookie: `${session_name_asp}=${session_value_asp};cantP=100`,
+				Cookie: `${session_name_asp}=${session_value_asp};cantP=50`,
 				Dnt: "1",
 				Host: "www.lagallega.com.ar",
 				"Sec-Fetch-Dest": "document",

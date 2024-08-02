@@ -50,7 +50,7 @@ export async function cotoScrapper(nombreProducto: string) {
 	try {
 		try {
 			await pagina.waitForSelector("#products", {
-				timeout: 20000,
+				timeout: 30000,
 			});
 			//apretar el filtro de menor a mayor precio.
 			await pagina.waitForSelector("#sortBySelect");
@@ -107,7 +107,6 @@ export async function cotoScrapper(nombreProducto: string) {
 		}
 	} finally {
 		await pagina.close();
-		console.log(resultadoBusqueda);
 		return resultadoBusqueda;
 	}
 }

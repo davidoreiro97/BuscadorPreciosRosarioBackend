@@ -33,110 +33,32 @@ export const scrapSupermercadosController = async (
 			message: errors.message.invalid_data,
 		});
 	}
-
-	switch (supermercadoBuscado) {
-		case "HIPERMERCADO LIBERTAD":
-			console.log(
-				"════════════════════> Haciendo web scrapping de HIPERMERCADO LIBERTAD..."
-			);
-			try {
-				productos = await hiperLibertadScrapper(productoBuscado);
-				return res.status(200).json({ productos });
-			} catch (error) {
-				return res.status(500).json({
-					errorType: errors.type.fetch_error,
-				});
-			}
-			break;
-		case "COTO":
-			console.log("════════════════════> Haciendo web scrapping de Coto...");
-			try {
-				productos = await cotoScrapper(productoBuscado);
-				return res.status(200).json({ productos });
-			} catch (error) {
-				return res.status(500).json({
-					errorType: errors.type.fetch_error,
-				});
-			}
-			break;
-		case "LA GALLEGA":
-			console.log(
-				"════════════════════> Haciendo web scrapping de La Gallega..."
-			);
-			try {
-				productos = await cheerioLaGallegaScrapper(productoBuscado);
-				return res.status(200).json({ productos });
-			} catch (error) {
-				return res.status(500).json({
-					errorType: errors.type.fetch_error,
-				});
-			}
-		case "LA REINA":
-			console.log(
-				"════════════════════> Haciendo web scrapping de La Reina..."
-			);
-			try {
-				productos = await cheerioLaReinaScrapper(productoBuscado);
-				return res.status(200).json({ productos });
-			} catch (error) {
-				return res.status(500).json({
-					errorType: errors.type.fetch_error,
-				});
-			}
-			break;
-		case "JUMBO":
-			console.log("════════════════════> Haciendo web scrapping de Jumbo...");
-			try {
-				productos = await jumboScrapper(productoBuscado);
-				return res.status(200).json({ productos });
-			} catch (error) {
-				return res.status(500).json({
-					errorType: errors.type.fetch_error,
-				});
-			}
-			break;
-		case "ARCOIRIS":
-			console.log(
-				"════════════════════> Haciendo web scrapping de Arcoiris..."
-			);
-			try {
-				productos = await cheerioArcoirisScrapper(productoBuscado);
-				return res.status(200).json({ productos });
-			} catch (error) {
-				return res.status(500).json({
-					errorType: errors.type.fetch_error,
-				});
-			}
-			break;
-		case "CARREFOUR":
-			console.log(
-				"════════════════════> Haciendo web scrapping de Carrefour..."
-			);
-			try {
-				productos = await carrefourScrapper(productoBuscado);
-				return res.status(200).json({ productos });
-			} catch (error) {
-				return res.status(500).json({
-					errorType: errors.type.fetch_error,
-				});
-			}
-			break;
-		case "DAR":
-			console.log("════════════════════> Haciendo web scrapping del DAR...");
-			try {
-				productos = await cheerioDarScrapper(productoBuscado);
-				return res.status(200).json({ productos });
-			} catch (error) {
-				return res.status(500).json({
-					errorType: errors.type.fetch_error,
-				});
-			}
-			break;
-		default:
-			return res.status(400).json({
-				errorType: errors.type.invalid_data,
-				message: errors.message.invalid_data,
-			});
-			break;
+	//Objeto con todos los scrappers
+	const scrapers: {
+		[key: string]: (nombreProducto: string) => Promise<any[]>;
+	} = {
+		"HIPERMERCADO LIBERTAD": hiperLibertadScrapper,
+		//Me banearon la ip de la página del croto jajaja.
+		// COTO: cotoScrapper,
+		"LA GALLEGA": cheerioLaGallegaScrapper,
+		"LA REINA": cheerioLaReinaScrapper,
+		JUMBO: jumboScrapper,
+		ARCOIRIS: cheerioArcoirisScrapper,
+		CARREFOUR: carrefourScrapper,
+		DAR: cheerioDarScrapper,
+	};
+	//Se elije el scrapper basandose en el supermercadoBuscado el cual es la key del objeto anterior.
+	const scraper = scrapers[supermercadoBuscado];
+	console.log(
+		` <════════════════════> Haciendo web scrapping de ${supermercadoBuscado} <════════════════════> `
+	);
+	try {
+		//Le pasamos el producto buscado al scrapper seleccionado.
+		productos = await scraper(productoBuscado);
+		return res.status(200).json({ productos });
+	} catch (error) {
+		return res.status(500).json({
+			errorType: errors.type.fetch_error,
+		});
 	}
 };

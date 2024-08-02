@@ -11,7 +11,7 @@ export const cheerioLaReinaScrapper = async (productoNombre: string) => {
 	try {
 		const optionsFetch = {
 			headers: {
-				Cookie: "cantP=100",
+				Cookie: "cantP=50",
 			},
 		};
 		let response = await fetch(urlFetch, optionsFetch);

@@ -42,7 +42,7 @@ export const getBrowser = async () => {
 				"--password-store=basic",
 				"--use-mock-keychain",
 			],
-			slowMo: 150,
+			slowMo: 50,
 		});
 	}
 	return browser;
