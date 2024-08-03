@@ -34,12 +34,13 @@ export const scrapSupermercadosController = async (
 		});
 	}
 	//Objeto con todos los scrappers
+
 	const scrapers: {
 		[key: string]: (nombreProducto: string) => Promise<any[]>;
 	} = {
 		"HIPERMERCADO LIBERTAD": hiperLibertadScrapper,
-		//Me banearon la ip de la página del croto jajaja.
-		// COTO: cotoScrapper,
+		//Es posible que nos baneen del coto.
+		COTO: cotoScrapper,
 		"LA GALLEGA": cheerioLaGallegaScrapper,
 		"LA REINA": cheerioLaReinaScrapper,
 		JUMBO: jumboScrapper,
@@ -48,6 +49,13 @@ export const scrapSupermercadosController = async (
 		DAR: cheerioDarScrapper,
 	};
 	//Se elije el scrapper basandose en el supermercadoBuscado el cual es la key del objeto anterior.
+	if (!scrapers[supermercadoBuscado]) {
+		//Si el nombre del supermercado no existe se devuelve invalid_data.
+		return res.status(400).json({
+			errorType: errors.type.invalid_data,
+			message: errors.message.invalid_data,
+		});
+	}
 	const scraper = scrapers[supermercadoBuscado];
 	console.log(
 		` <════════════════════> Haciendo web scrapping de ${supermercadoBuscado} <════════════════════> `
@@ -56,9 +64,18 @@ export const scrapSupermercadosController = async (
 		//Le pasamos el producto buscado al scrapper seleccionado.
 		productos = await scraper(productoBuscado);
 		return res.status(200).json({ productos });
-	} catch (error) {
-		return res.status(500).json({
-			errorType: errors.type.fetch_error,
-		});
+	} catch (error: any) {
+		console.error("------------> ERROR EN EL SCRAPPER <-------------");
+		console.log(error);
+		if (error.message === "IP_BLOCKED") {
+			return res.status(500).json({
+				errorType: "IP_BLOCKED",
+				message: "IP BLOQUEADA POR EL SUPERMERCADO.",
+			});
+		} else {
+			return res.status(500).json({
+				errorType: errors.type.fetch_error,
+			});
+		}
 	}
 };
