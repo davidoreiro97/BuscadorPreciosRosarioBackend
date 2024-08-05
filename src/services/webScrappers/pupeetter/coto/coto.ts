@@ -15,8 +15,8 @@ export async function cotoScrapper(nombreProducto: string) {
 			//request.resourceType() === "image" ||
 			request.resourceType() === "font" ||
 			request.resourceType() === "media" ||
-			request.resourceType() === "script" ||
-			request.resourceType() === "fetch" ||
+			//request.resourceType() === "script" ||
+			//request.resourceType() === "fetch" ||
 			request.resourceType() === "xhr" ||
 			request.resourceType() === "texttrack" ||
 			request.resourceType() === "eventsource" ||
@@ -30,7 +30,9 @@ export async function cotoScrapper(nombreProducto: string) {
 	});
 	await pagina.setViewport({ width: 1600, height: 900 });
 	try {
-		await pagina.goto(url_pagina_supermercado, { waitUntil: "networkidle0" });
+		await pagina.goto(url_pagina_supermercado);
+		await pagina.reload({ waitUntil: "domcontentloaded" });
+		await pagina.waitForSelector("#searchForm");
 		await pagina.evaluate(postSearch, nombreProducto);
 	} catch (err: any) {
 		if (err.name === "TimeoutError") {
@@ -45,7 +47,7 @@ export async function cotoScrapper(nombreProducto: string) {
 	try {
 		try {
 			await pagina.waitForSelector("#products", {
-				timeout: 10000,
+				timeout: 15000,
 			});
 			await pagina.waitForSelector("#sortBySelect");
 			await pagina.evaluate(orderSearch);
@@ -68,7 +70,7 @@ export async function cotoScrapper(nombreProducto: string) {
 					await pagina.waitForSelector(
 						".atg_store_noMatchingItem atg_store_generalMessage",
 						{
-							timeout: 10000,
+							timeout: 15000,
 						}
 					);
 					// console.log("Sin resultados");

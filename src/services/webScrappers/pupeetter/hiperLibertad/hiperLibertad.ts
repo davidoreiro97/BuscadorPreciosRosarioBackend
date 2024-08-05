@@ -49,7 +49,7 @@ export async function hiperLibertadScrapper(nombreProducto: string) {
 	pagina.on("request", (request) => {
 		if (
 			request.resourceType() === "stylesheet" ||
-			request.resourceType() === "image" ||
+			//request.resourceType() === "image" ||
 			request.resourceType() === "font" ||
 			request.resourceType() === "media" ||
 			//request.resourceType() === "script" ||
