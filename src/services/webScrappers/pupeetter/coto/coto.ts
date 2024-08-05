@@ -7,27 +7,27 @@ export async function cotoScrapper(nombreProducto: string) {
 	const url_pagina_supermercado = `https://www.cotodigital3.com.ar/sitios/cdigi/`;
 	const browser = await getBrowser();
 	const pagina = await browser.newPage();
-	pagina.setDefaultNavigationTimeout(10000); //Tiempo de espera máximo para la navegación.
-	await pagina.setRequestInterception(true);
-	pagina.on("request", (request) => {
-		if (
-			request.resourceType() === "stylesheet" ||
-			//request.resourceType() === "image" ||
-			request.resourceType() === "font" ||
-			request.resourceType() === "media" ||
-			//request.resourceType() === "script" ||
-			//request.resourceType() === "fetch" ||
-			request.resourceType() === "xhr" ||
-			request.resourceType() === "texttrack" ||
-			request.resourceType() === "eventsource" ||
-			request.resourceType() === "websocket" ||
-			request.resourceType() === "manifest"
-		) {
-			request.abort(); // Cancela la carga de la imagen ,archivo css y fuentes.
-		} else {
-			request.continue(); // Continuar con la solicitud de otros recursos
-		}
-	});
+	pagina.setDefaultNavigationTimeout(15000); //Tiempo de espera máximo para la navegación.
+	// await pagina.setRequestInterception(true);
+	// pagina.on("request", (request) => {
+	// 	if (
+	// 		request.resourceType() === "stylesheet" ||
+	// 		request.resourceType() === "image" ||
+	// 		request.resourceType() === "font" ||
+	// 		request.resourceType() === "media" ||
+	// 		request.resourceType() === "script" ||
+	// 		request.resourceType() === "fetch" ||
+	// 		request.resourceType() === "xhr" ||
+	// 		request.resourceType() === "texttrack" ||
+	// 		request.resourceType() === "eventsource" ||
+	// 		request.resourceType() === "websocket" ||
+	// 		request.resourceType() === "manifest"
+	// 	) {
+	// 		request.abort(); // Cancela la carga de la imagen ,archivo css y fuentes.
+	// 	} else {
+	// 		request.continue(); // Continuar con la solicitud de otros recursos
+	// 	}
+	// });
 	await pagina.setViewport({ width: 1600, height: 900 });
 	try {
 		await pagina.goto(url_pagina_supermercado);
@@ -51,7 +51,6 @@ export async function cotoScrapper(nombreProducto: string) {
 			});
 			await pagina.waitForSelector("#sortBySelect");
 			await pagina.evaluate(orderSearch);
-			return (resultadoBusqueda = []);
 		} catch (e: any) {
 			try {
 				await pagina.waitForSelector(".notice");
@@ -97,7 +96,7 @@ export async function cotoScrapper(nombreProducto: string) {
 			console.log("Error al obtener los resultados de búsqueda COTO :", error);
 			resultadoBusqueda = [];
 		}
-		return (resultadoBusqueda = []);
+		return resultadoBusqueda;
 	} catch (error: any) {
 		if (error.message === "IP_BLOCKED") {
 			throw Error("IP_BLOCKED");
