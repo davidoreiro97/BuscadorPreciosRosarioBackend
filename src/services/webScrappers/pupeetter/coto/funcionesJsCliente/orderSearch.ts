@@ -1,5 +1,6 @@
 export const orderSearch = () => {
-	let $optionMinToMax =
-		document.getElementById("sortBySelect").children[5].value;
+	let element:any =
+		document.getElementById("sortBySelect")?.children[5];
+	let $optionMinToMax= element?.value||""
 	location = $optionMinToMax.toString();
 };
