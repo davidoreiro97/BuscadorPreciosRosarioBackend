@@ -14,12 +14,17 @@ const app = express();
 // Modificando el formato de salida de morgan
 morgan.token("date", () => new Date().toLocaleDateString());
 morgan.token("hour", () => new Date().toLocaleTimeString());
-// Configuración de CORS
-// const corsOptions = {
-// 	origin: "url", // Cambiar el dominio
-// 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-// 	allowedHeaders: "Content-Type,Authorization",
-// };
+//Configuración de CORS
+  const corsOptions = {
+  	// origin: "https://davidoreiro97.github.io/*",
+	origin :"*",
+  	methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  	allowedHeaders: [
+ 		"Content-Type",
+ 		"Authorization",
+ 		"User-Agent",
+ 		"bypass-tunnel-reminder"],
+  };
 // Middlewares
 //// Para parsear json
 app.use(express.json());
@@ -30,7 +35,7 @@ app.use(
 	)
 );
 //// Cors
-app.use(cors());
+app.use(cors(corsOptions));
 //// Helmet
 app.use(helmet());
 export default app;

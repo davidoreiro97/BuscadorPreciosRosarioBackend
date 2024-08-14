@@ -28,7 +28,7 @@ export const getCoordinatesController = async (req: Request, res: Response) => {
 	}
 	const api_key = process.env.API_KEY_GEOCODE;
 	const queryParams = direccionIngresada.trim().split(" ").join("+");
-	const urlGeocodeAPI = `https://geocode.search.hereapi.com/v1/geocode?q=${queryParams}+Rosario+,Santa+Fe+Argentina&apiKey=${api_key}`;
+	const urlGeocodeAPI = `https://geocode.search.hereapi.com/v1/geocode?q=${queryParams}+Rosario+,Provincia+de+Santa+Fe,+Argentina&apiKey=${api_key}`;
 	let direccion: string;
 
 	try {
