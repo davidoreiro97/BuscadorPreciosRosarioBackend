@@ -16,8 +16,8 @@ morgan.token("date", () => new Date().toLocaleDateString());
 morgan.token("hour", () => new Date().toLocaleTimeString());
 //Configuración de CORS
   const corsOptions = {
-  	// origin: "https://davidoreiro97.github.io/*",
-	origin :"*",
+  	origin: "https://davidoreiro97.github.io/*",
+	//origin :"*",
   	methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   	allowedHeaders: [
  		"Content-Type",
