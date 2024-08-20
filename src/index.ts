@@ -8,7 +8,7 @@ import {
 	closeBrowser,
 } from "./services/webScrappers/pupeetter/browserInstance";
 const PORT: number = parseInt(process.env.PORT as string) || 3000;
-const LISTEN_ADDRESS: string = process.env.HOST || "0.0.0.0";
+const LISTEN_ADDRESS: string = process.env.HOST || "127.0.0.1";
 
 app.listen(PORT, LISTEN_ADDRESS, async () => {
 	await getBrowser();
@@ -21,7 +21,7 @@ app.listen(PORT, LISTEN_ADDRESS, async () => {
 	);
 	console.log(
 		`Servidor Express corriendo en puerto ${PORT}
-      	 escuchando todas las interfaces de red (${LISTEN_ADDRESS})`
+      	 escuchando la direccion de loopback : (${LISTEN_ADDRESS})`
 	);
 });
 
