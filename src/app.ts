@@ -35,7 +35,8 @@ app.use(
 	)
 );
 //// Cors
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
+app.use(cors());
 //// Helmet
 app.use(helmet());
 export default app;

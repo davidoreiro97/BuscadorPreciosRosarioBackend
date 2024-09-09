@@ -8,7 +8,7 @@ import {
 	closeBrowser,
 } from "./services/webScrappers/pupeetter/browserInstance";
 const PORT: number = parseInt(process.env.PORT as string) || 3000;
-const LISTEN_ADDRESS: string = process.env.HOST || "127.0.0.1";
+const LISTEN_ADDRESS: string = process.env.HOST || "0.0.0.0";
 
 app.listen(PORT, LISTEN_ADDRESS, async () => {
 	await getBrowser();
